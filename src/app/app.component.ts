@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -105,7 +106,7 @@ export class AppComponent implements OnInit {
   }
 
   fetchAlerts() {
-    this.http.get<any[]>('http://localhost:3000/alerts').subscribe({
+    this.http.get<any[]>(`${environment.apiUrl}/alerts`).subscribe({
       next: (data) => {
         this.allAlerts = (data || []).sort((a, b) => new Date(b.signalTime).getTime() - new Date(a.signalTime).getTime());
         this.applySearch();
@@ -172,7 +173,7 @@ export class AppComponent implements OnInit {
       }
     }
     if (changed) {
-      this.http.post('http://localhost:3000/alerts-overwrite', this.alerts).subscribe(() => {
+      this.http.post(`${environment.apiUrl}/alerts-overwrite`, this.alerts).subscribe(() => {
         this.fetchAlerts();
       });
     }
@@ -207,7 +208,7 @@ export class AppComponent implements OnInit {
       } else {
         alertObj.hit1 = false;
       }
-      this.http.post('http://localhost:3000/alerts', alertObj).subscribe({
+      this.http.post(`${environment.apiUrl}/alerts`, alertObj).subscribe({
         next: (res) => {
           this.form.reset({ type: 'long' });
           this.fetchAlerts();
@@ -224,7 +225,7 @@ export class AppComponent implements OnInit {
     const alertToDelete = this.alerts[globalIndex];
     this.alerts.splice(globalIndex, 1);
     this.updatePagedAlerts();
-    this.http.post('http://localhost:3000/alerts-overwrite', this.alerts).subscribe({
+    this.http.post(`${environment.apiUrl}/alerts-overwrite`, this.alerts).subscribe({
       next: () => {
         this.fetchAlerts();
       },

@@ -40,3 +40,26 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# IDE and editor folders
+.vscode/
+.idea/
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# Angular cache
+.angular/
+
+# Test output
+coverage/
+
+# Environment files
+.env
